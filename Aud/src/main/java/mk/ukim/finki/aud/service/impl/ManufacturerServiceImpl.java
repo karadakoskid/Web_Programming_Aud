@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ManufacturerImpl implements ManufacturerService {
+public class ManufacturerServiceImpl implements ManufacturerService {
     private final InMemoryManufacturerRepository manufacturerRepository;
 
-    public ManufacturerImpl(InMemoryManufacturerRepository manufacturerRepository) {
+    public ManufacturerServiceImpl(InMemoryManufacturerRepository manufacturerRepository) {
         this.manufacturerRepository = manufacturerRepository;
     }
 
@@ -24,5 +24,15 @@ public class ManufacturerImpl implements ManufacturerService {
     @Override
     public Optional<Manufacturer> findById(Long id) {
         return this.manufacturerRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Manufacturer> save(String name, String address) {
+        return this.manufacturerRepository.save(name,address);
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        return this.manufacturerRepository.deleteById(id);
     }
 }
