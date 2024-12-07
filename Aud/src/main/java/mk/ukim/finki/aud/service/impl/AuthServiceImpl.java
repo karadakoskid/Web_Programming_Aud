@@ -4,16 +4,18 @@ import mk.ukim.finki.aud.model.User;
 import mk.ukim.finki.aud.model.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.aud.model.exceptions.InvalidUserCredetialsExceptions;
 import mk.ukim.finki.aud.model.exceptions.PasswordDoNotMatchException;
-import mk.ukim.finki.aud.repository.InMemoryUserRepository;
+import mk.ukim.finki.aud.model.exceptions.UsernameExistsException;
+import mk.ukim.finki.aud.repository.impl.InMemoryUserRepository;
+import mk.ukim.finki.aud.repository.jpa.UserRepository;
 import mk.ukim.finki.aud.service.AuthService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private final InMemoryUserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public AuthServiceImpl(InMemoryUserRepository userRepository){
+    public AuthServiceImpl(UserRepository userRepository){
         this.userRepository=userRepository;
     }
     @Override
@@ -33,9 +35,12 @@ public class AuthServiceImpl implements AuthService {
         if(!password.equals(repeatPassword)){
             throw new PasswordDoNotMatchException();
         }
+
+        if(userRepository.findByUsername(username).isPresent())
+            throw new UsernameExistsException(username);
         User user=new User(username,password,name,surname);
 
-        return userRepository.saveorUpdate(user);
+        return userRepository.save(user);
 
 
     }

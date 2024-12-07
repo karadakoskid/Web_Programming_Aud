@@ -10,8 +10,10 @@ import mk.ukim.finki.aud.model.exceptions.ProductAlreadyInShoppingCartException;
 import mk.ukim.finki.aud.model.exceptions.ProductNotFoundException;
 import mk.ukim.finki.aud.model.exceptions.ShoppingCartNotFoundException;
 import mk.ukim.finki.aud.model.exceptions.UserNotFoundException;
-import mk.ukim.finki.aud.repository.InMemoryShoppingCartRepository;
-import mk.ukim.finki.aud.repository.InMemoryUserRepository;
+import mk.ukim.finki.aud.repository.impl.InMemoryShoppingCartRepository;
+import mk.ukim.finki.aud.repository.impl.InMemoryUserRepository;
+import mk.ukim.finki.aud.repository.jpa.ShoppingCartRepository;
+import mk.ukim.finki.aud.repository.jpa.UserRepository;
 import mk.ukim.finki.aud.service.ProductService;
 import mk.ukim.finki.aud.service.ShoppingCartService;
 import org.springframework.stereotype.Service;
@@ -22,12 +24,12 @@ import java.util.stream.Collectors;
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
-    private final InMemoryShoppingCartRepository shoppingCartRepository;
-    private final InMemoryUserRepository userRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
+    private final UserRepository userRepository;
     private final ProductService productService;
 
-    public ShoppingCartServiceImpl(InMemoryShoppingCartRepository shoppingCartRepository,
-                                   InMemoryUserRepository userRepository,
+    public ShoppingCartServiceImpl(ShoppingCartRepository shoppingCartRepository,
+                                   UserRepository userRepository,
                                    ProductService productService) {
         this.shoppingCartRepository = shoppingCartRepository;
         this.userRepository = userRepository;
@@ -43,14 +45,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShopingCart getActiveShoppingCart(String username) {
-        return this.shoppingCartRepository
-                .findByUsernameAndStatus(username, ShoppingCartStatus.CREATED)
+        User user = this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+       return this.shoppingCartRepository.findByUserAndStatus(user, ShoppingCartStatus.CREATED)
                 .orElseGet(() -> {
-                    User user = this.userRepository.findByUsername(username)
-                            .orElseThrow(() -> new UserNotFoundException(username));
-                    ShopingCart shoppingCart = new ShopingCart(user);
-                    return this.shoppingCartRepository.save(shoppingCart);
+                    ShopingCart cart = new ShopingCart(user);
+                    return this.shoppingCartRepository.save(cart);
                 });
+
     }
 
     @Override

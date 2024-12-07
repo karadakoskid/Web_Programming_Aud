@@ -17,19 +17,19 @@ public class DataHolder {
 
 
 
-    @PostConstruct
-    public void init(){
-        categories.add(new Category("Software","Software Category"));
-        categories.add(new Category("Books","Books Category"));
-        users.add(new User("damjan.karadakoski","dk","Damjan","Karadakoski"));
-        users.add(new User("bojana.karadakoski","bk","Bojana","Karadakoski"));
-
-        Manufacturer manufacturer=new Manufacturer("Nike","NY NY");
-        manufacturers.add(manufacturer);
-        Category category=new Category("Sport","Sport Category");
-        categories.add(category);
-        products.add(new Product("Ball 1",234.8,7,category,manufacturer));
-        products.add(new Product("Ball 2",234.8,7,category,manufacturer));
-        products.add(new Product("Ball 3",234.8,7,category,manufacturer));
-    }
+//    @PostConstruct
+//    public void init(){
+//        categories.add(new Category("Software","Software Category"));
+//        categories.add(new Category("Books","Books Category"));
+//        users.add(new User("damjan.karadakoski","dk","Damjan","Karadakoski"));
+//        users.add(new User("bojana.karadakoski","bk","Bojana","Karadakoski"));
+//
+//        Manufacturer manufacturer=new Manufacturer("Nike","NY NY");
+//        manufacturers.add(manufacturer);
+//        Category category=new Category("Sport","Sport Category");
+//        categories.add(category);
+//        products.add(new Product("Ball 1",234.8,7,category,manufacturer));
+//        products.add(new Product("Ball 2",234.8,7,category,manufacturer));
+//        products.add(new Product("Ball 3",234.8,7,category,manufacturer));
+//    }
 }

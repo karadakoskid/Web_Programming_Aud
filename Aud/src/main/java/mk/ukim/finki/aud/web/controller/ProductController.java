@@ -1,8 +1,11 @@
 package mk.ukim.finki.aud.web.controller;
 
+import jakarta.persistence.Id;
 import mk.ukim.finki.aud.model.Category;
 import mk.ukim.finki.aud.model.Manufacturer;
 import mk.ukim.finki.aud.model.Product;
+import mk.ukim.finki.aud.model.exceptions.CategoryNotFoundException;
+import mk.ukim.finki.aud.model.exceptions.ManufacturerNotFoundException;
 import mk.ukim.finki.aud.service.CategoryService;
 import mk.ukim.finki.aud.service.ManufacturerService;
 import mk.ukim.finki.aud.service.ProductService;
@@ -70,5 +73,19 @@ public class ProductController {
         this.productService.save(name, price, quantity, category, manufacturer);
         return "redirect:/products";
     }
+//@PostMapping("/add")
+//public String saveProduct(
+//        @RequestParam (required = false)Long id,
+//        @RequestParam String name,
+//        @RequestParam Double price,
+//        @RequestParam Integer quantity,
+//        @RequestParam Long category,
+//        @RequestParam Long manufacturer) {
+//    System.out.println("Saving product: " + name);
+//    System.out.println("Category ID: " + category + ", Manufacturer ID: " + manufacturer);
+//    this.productService.save(name, price, quantity, category, manufacturer);
+//    return "redirect:/products";
+//}
+
 
 }
